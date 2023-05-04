@@ -20,13 +20,13 @@ func RandStringRunes(n int) string {
 	return string(b)
 }
 
-func writeToDB(token, prompt, num_beams, temperature, top_p, num_beam_groups string) error {
+func writeToDB(token, prompt, num_beams, temperature, top_p, num_beam_groups, telegram_user_id string) error {
 	db, err := sql.Open("mysql", "l905412p_project:4V6NR5Cg@tcp(l905412p.beget.tech)/l905412p_project")
 	if err != nil {
 		return err
 	}
 	defer db.Close()
-	_, err = db.Exec("INSERT INTO requests(token, prompt, num_beams, temperature, top_p, num_beam_groups) VALUES(?, ?, ?, ?, ?, ?)", token, prompt, num_beams, temperature, top_p, num_beam_groups)
+	_, err = db.Exec("INSERT INTO requests(token, prompt, num_beams, temperature, top_p, num_beam_groups, telegram_user_id) VALUES(?, ?, ?, ?, ?, ?, ?)", token, prompt, num_beams, temperature, top_p, num_beam_groups, telegram_user_id)
 	return err
 }
 
@@ -67,6 +67,8 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	temperature := r.FormValue("temperature")
 	top_p := r.FormValue("top_p")
 	num_beam_groups := r.FormValue("num_beam_groups")
+    telegram_user_id := r.FormValue("telegram_user_id")
+
 
 	token := RandStringRunes(32)
 
@@ -125,7 +127,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := writeToDB(token, prompt, num_beams, temperature, top_p, num_beam_groups); err != nil {
+	if err := writeToDB(token, prompt, num_beams, temperature, top_p, num_beam_groups, telegram_user_id); err != nil {
 		http.Error(w, fmt.Sprintf("Internal error: %s", err), http.StatusInternalServerError)
 		return
 	}
