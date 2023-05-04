@@ -110,6 +110,16 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+    if len(num_beams) > 1 && num_beams[0] > "1" {
+        http.Error(w, "num_beams is too large", http.StatusBadRequest)
+        return
+    }
+
+    if len(num_beam_groups) > 1 && num_beam_groups[0] > "1" {
+        http.Error(w, "num_beam_groups is too large", http.StatusBadRequest)
+        return
+    }
+
 	if len(prompt) == 0 {
 		http.Error(w, "Promp must be specified", http.StatusBadRequest)
 		return
