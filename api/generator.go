@@ -32,6 +32,10 @@ func writeToDB(token, prompt string) error {
 
 
 func Handler(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set("Access-Control-Allow-Origin", "*") // Разрешение запросов со всех источников
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS") // Разрешение методов запроса
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization") // Разрешение заголовков запроса
+
     if r.Method != "POST" {
         return
     }
