@@ -26,7 +26,10 @@ func getFromDB(token string) (string, error) {
 }
  
 func Handler(w http.ResponseWriter, r *http.Request) {
-	token := r.URL.Query().Get("token")
+    w.Header().Set("Access-Control-Allow-Origin", "*") // Разрешение запросов со всех источников
+    w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS") // Разрешение методов запроса
+    w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization") // Разрешение заголовков запрос
+    token := r.URL.Query().Get("token")
     fmt.Println(token)
     if len(token) != 32 {
         http.Error(w, "Token is wrong", http.StatusBadRequest)
