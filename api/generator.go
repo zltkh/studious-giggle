@@ -83,7 +83,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(top_p) == 0 {
-		num_beams = "0.8"
+		top_p = "0.8"
 	}
 
 	if len(num_beam_groups) == 0 {
