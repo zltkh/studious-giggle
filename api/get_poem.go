@@ -18,7 +18,7 @@ func getFromDB(token string) (string, error) {
     var tokenn string
     var result string
     var pprompt string
-    var b1
+    var b1 string
     err = row.Scan(&id, &tokenn, &pprompt, &result, &b1, &b1, &b1, &b1, &b1)
     if err != nil {
         return "", err
